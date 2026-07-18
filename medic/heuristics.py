@@ -1,0 +1,108 @@
+"""Deterministic failure diagnosis from evidence — no LLM required.
+
+Runs before (and as fallback for) the LLM so the medic still gives useful
+answers when Ollama itself is the thing that died.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from .evidence import Evidence
+
+
+@dataclass(frozen=True)
+class Diagnosis:
+    cause: str
+    confidence: float          # 0..1
+    recommended_action: str    # restart | investigate | none
+    reasoning: str
+    source: str                # heuristic | llm
+
+_LOG_PATTERNS = [
+    # (needle in logs, cause, action, confidence)
+    ("address already in use", "port conflict on startup", "investigate", 0.9),
+    ("port is already allocated", "port conflict on startup", "investigate", 0.9),
+    ("no space left on device", "disk full", "investigate", 0.95),
+    ("permission denied", "filesystem permission error", "investigate", 0.7),
+    ("connection refused", "upstream dependency unreachable", "restart", 0.5),
+    ("no such host", "DNS resolution failure", "restart", 0.6),
+    ("panic:", "application crash (panic)", "restart", 0.7),
+    ("fatal", "application fatal error", "restart", 0.5),
+    ("out of memory", "application-level OOM", "restart", 0.8),
+]
+
+
+def diagnose(ev: Evidence) -> Diagnosis:
+    if ev.error:
+        return Diagnosis(
+            cause="evidence collection failed",
+            confidence=0.2,
+            recommended_action="investigate",
+            reasoning=ev.error,
+            source="heuristic",
+        )
+
+    if ev.oom_killed:
+        return Diagnosis(
+            cause="container OOM-killed by kernel",
+            confidence=0.95,
+            recommended_action="restart",
+            reasoning="docker inspect reports OOMKilled=true; consider raising the memory limit",
+            source="heuristic",
+        )
+
+    if ev.restart_count >= 3:
+        return Diagnosis(
+            cause="crash loop",
+            confidence=0.85,
+            recommended_action="investigate",
+            reasoning=f"RestartCount={ev.restart_count}; restarting again is unlikely to help",
+            source="heuristic",
+        )
+
+    logs = ev.logs_tail.lower()
+    for needle, cause, action, conf in _LOG_PATTERNS:
+        if needle in logs:
+            return Diagnosis(
+                cause=cause,
+                confidence=conf,
+                recommended_action=action,
+                reasoning=f"log tail matched pattern {needle!r}",
+                source="heuristic",
+            )
+
+    if ev.running is False and ev.exit_code == 0:
+        return Diagnosis(
+            cause="container stopped cleanly (exit 0)",
+            confidence=0.9,
+            recommended_action="restart",
+            reasoning="clean exit means manual stop, compose down, or host event — "
+                      "not an application fault; restart is safe",
+            source="heuristic",
+        )
+
+    if ev.running is False:
+        return Diagnosis(
+            cause=f"container exited (code {ev.exit_code})",
+            confidence=0.6,
+            recommended_action="restart",
+            reasoning="container is not running and no specific failure pattern matched",
+            source="heuristic",
+        )
+
+    if ev.health_status == "unhealthy":
+        return Diagnosis(
+            cause="container running but healthcheck failing",
+            confidence=0.6,
+            recommended_action="restart",
+            reasoning="process alive but not serving; restart usually clears wedged state",
+            source="heuristic",
+        )
+
+    return Diagnosis(
+        cause="service unreachable, container looks healthy",
+        confidence=0.3,
+        recommended_action="investigate",
+        reasoning="no failure signature in evidence; could be network path or reverse proxy",
+        source="heuristic",
+    )

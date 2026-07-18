@@ -1,0 +1,50 @@
+# homelab-medic configuration
+# Copy to config.toml and edit for your stack.
+
+[defaults]
+interval_seconds = 120     # watch-mode scan cadence
+timeout_seconds = 5        # per-check timeout
+heal_grace_seconds = 20    # wait after restart before verifying
+
+[llm]
+enabled = true
+url = "http://localhost:11434"   # any Ollama endpoint
+model = "hermes3:8b"             # whatever you have pulled
+timeout_seconds = 60
+
+[notify.discord]
+webhook_url = ""           # leave empty to disable
+
+[storage]
+db_path = "data/medic.db"
+postmortem_dir = "postmortems"
+
+# ── services ──────────────────────────────────────────────────────────────
+# kind = "http"      → target is a URL, up = status < 500 (or expect_status)
+# kind = "tcp"       → target is host:port, up = connect succeeds
+# kind = "container" → target/container is a docker name, up = running + healthy
+# heal = "restart"   → medic may docker-restart `container` (subject to policy)
+# heal = "none"      → observe + diagnose + notify only
+
+[[service]]
+name = "dashboard"
+kind = "http"
+target = "http://localhost:3001"
+container = "homepage"
+heal = "restart"
+cooldown_seconds = 300
+max_heals_per_day = 5
+
+[[service]]
+name = "dns"
+kind = "tcp"
+target = "localhost:53"
+container = "adguardhome"
+heal = "none"              # DNS flaps deserve a human
+
+[[service]]
+name = "photos"
+kind = "container"
+target = "immich_server"
+container = "immich_server"
+heal = "restart"
