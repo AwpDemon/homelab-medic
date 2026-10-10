@@ -75,3 +75,31 @@ class TestLoadConfig:
         bad = '[[service]]\nname = "a"\nkind = "tcp"\n'
         with pytest.raises(ConfigError, match="target"):
             load_config(_write(tmp_path, bad))
+
+
+class TestLLMConfig:
+    def test_llm_defaults(self, tmp_path):
+        cfg = load_config(_write(tmp_path, VALID))
+        assert cfg.llm.api == "ollama"
+        assert cfg.llm.prompt == "v2"
+        assert cfg.llm.temperature == 0.2
+
+    def test_openai_api_accepted(self, tmp_path):
+        text = VALID.replace('model = "test:1b"', 'model = "m"\napi = "openai"\napi_key_env = "KEY"')
+        cfg = load_config(_write(tmp_path, text))
+        assert cfg.llm.api == "openai" and cfg.llm.api_key_env == "KEY"
+
+    def test_bad_api_rejected(self, tmp_path):
+        text = VALID.replace('model = "test:1b"', 'model = "m"\napi = "grpc"')
+        with pytest.raises(ConfigError, match="llm.api"):
+            load_config(_write(tmp_path, text))
+
+    def test_bad_prompt_rejected(self, tmp_path):
+        text = VALID.replace('model = "test:1b"', 'model = "m"\nprompt = "v9"')
+        with pytest.raises(ConfigError, match="llm.prompt"):
+            load_config(_write(tmp_path, text))
+
+    def test_example_config_loads(self):
+        from pathlib import Path
+        cfg = load_config(Path(__file__).resolve().parents[1] / "config.example.toml")
+        assert cfg.llm.model == "qwen2.5:7b-instruct"

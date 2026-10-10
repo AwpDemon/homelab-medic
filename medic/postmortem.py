@@ -37,7 +37,7 @@ def write(directory: str | Path, incident_id: int, result: CheckResult,
 - Restart count: {ev.restart_count} · Health: {ev.health_status or 'n/a'}
 
 ## Diagnosis ({diagnosis.source}, confidence {diagnosis.confidence:.0%})
-**{diagnosis.cause}**
+**{diagnosis.cause}** (category: `{diagnosis.category}`)
 
 {diagnosis.reasoning}
 

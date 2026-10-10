@@ -67,3 +67,31 @@ class TestDiagnose:
 
     def test_source_is_heuristic(self):
         assert diagnose(_ev()).source == "heuristic"
+
+
+class TestCategories:
+    def test_every_branch_returns_a_known_category(self):
+        from medic.heuristics import CATEGORIES
+        samples = [
+            Evidence(container="c", error="inspect failed"),
+            _ev(oom_killed=True),
+            _ev(restart_count=4),
+            _ev(logs_tail="address already in use"),
+            _ev(logs_tail="no space left on device"),
+            _ev(logs_tail="permission denied"),
+            _ev(logs_tail="connection refused"),
+            _ev(logs_tail="no such host"),
+            _ev(logs_tail="panic: boom"),
+            _ev(exit_code=0),
+            _ev(exit_code=1),
+            _ev(running=True, exit_code=0, health_status="unhealthy"),
+            _ev(running=True, exit_code=0),
+        ]
+        for ev in samples:
+            assert diagnose(ev).category in CATEGORIES
+
+    def test_clean_stop_is_external_stop(self):
+        assert diagnose(_ev(exit_code=0)).category == "external_stop"
+
+    def test_oom_category(self):
+        assert diagnose(_ev(oom_killed=True)).category == "oom"

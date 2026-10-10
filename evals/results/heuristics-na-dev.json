@@ -1,0 +1,348 @@
+{
+  "mode": "heuristics",
+  "prompt": null,
+  "split": "dev",
+  "model": null,
+  "api": null,
+  "threshold": null,
+  "temperature": null,
+  "seeds": [
+    0
+  ],
+  "per_seed": [
+    {
+      "n": 20,
+      "action_accuracy": 0.85,
+      "category_accuracy": 0.65,
+      "false_heal_rate": 0.3,
+      "false_heals": 3,
+      "missed_heal_rate": 0.0,
+      "llm_invocation_rate": 0.0,
+      "llm_fallbacks": 0,
+      "latency_p50_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "llm_call_p50_ms": 0.0
+    }
+  ],
+  "summary": {
+    "n": {
+      "mean": 20.0,
+      "min": 20,
+      "max": 20
+    },
+    "action_accuracy": {
+      "mean": 0.85,
+      "min": 0.85,
+      "max": 0.85
+    },
+    "category_accuracy": {
+      "mean": 0.65,
+      "min": 0.65,
+      "max": 0.65
+    },
+    "false_heal_rate": {
+      "mean": 0.3,
+      "min": 0.3,
+      "max": 0.3
+    },
+    "false_heals": {
+      "mean": 3.0,
+      "min": 3,
+      "max": 3
+    },
+    "missed_heal_rate": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_invocation_rate": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_fallbacks": {
+      "mean": 0.0,
+      "min": 0,
+      "max": 0
+    },
+    "latency_p50_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "latency_p95_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_call_p50_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    }
+  },
+  "predictions": {
+    "0": [
+      {
+        "id": "d01",
+        "label_action": "investigate",
+        "label_category": "network_path",
+        "pred_action": "investigate",
+        "pred_category": "network_path",
+        "confidence": 0.3,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "service unreachable, container looks healthy",
+        "latency_ms": 0.01
+      },
+      {
+        "id": "d02",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "external_stop",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container stopped cleanly (exit 0)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d03",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "oom",
+        "confidence": 0.95,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container OOM-killed by kernel",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d04",
+        "label_action": "investigate",
+        "label_category": "crash_loop",
+        "pred_action": "investigate",
+        "pred_category": "crash_loop",
+        "confidence": 0.85,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "crash loop",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d05",
+        "label_action": "investigate",
+        "label_category": "port_conflict",
+        "pred_action": "investigate",
+        "pred_category": "port_conflict",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "port conflict on startup",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d06",
+        "label_action": "investigate",
+        "label_category": "permission",
+        "pred_action": "investigate",
+        "pred_category": "permission",
+        "confidence": 0.7,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "filesystem permission error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d07",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 1)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d08",
+        "label_action": "restart",
+        "label_category": "dependency_unreachable",
+        "pred_action": "restart",
+        "pred_category": "dependency_unreachable",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "upstream dependency unreachable",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d09",
+        "label_action": "restart",
+        "label_category": "unhealthy",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d10",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d11",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 143)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d12",
+        "label_action": "investigate",
+        "label_category": "disk_full",
+        "pred_action": "investigate",
+        "pred_category": "disk_full",
+        "confidence": 0.95,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "disk full",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d13",
+        "label_action": "restart",
+        "label_category": "app_crash",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.7,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application crash (panic)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d14",
+        "label_action": "restart",
+        "label_category": "dns_failure",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 1)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d15",
+        "label_action": "investigate",
+        "label_category": "network_path",
+        "pred_action": "investigate",
+        "pred_category": "network_path",
+        "confidence": 0.3,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "service unreachable, container looks healthy",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d16",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d17",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 1)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d18",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d19",
+        "label_action": "investigate",
+        "label_category": "crash_loop",
+        "pred_action": "investigate",
+        "pred_category": "crash_loop",
+        "confidence": 0.85,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "crash loop",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "d20",
+        "label_action": "restart",
+        "label_category": "unhealthy",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      }
+    ]
+  }
+}

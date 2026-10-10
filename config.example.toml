@@ -8,8 +8,12 @@ heal_grace_seconds = 20    # wait after restart before verifying
 
 [llm]
 enabled = true
-url = "http://localhost:11434"   # any Ollama endpoint
-model = "hermes3:8b"             # whatever you have pulled
+api = "ollama"                   # "ollama" (native API) or "openai" (any OpenAI-compatible server)
+url = "http://localhost:11434"   # base URL, no trailing path
+model = "qwen2.5:7b-instruct"    # the model evaluated in evals/
+api_key_env = ""                 # openai mode: name of the env var holding an API key
+temperature = 0.2
+prompt = "v2"                    # system prompt version (see PROMPTS.md)
 timeout_seconds = 60
 
 [notify.discord]

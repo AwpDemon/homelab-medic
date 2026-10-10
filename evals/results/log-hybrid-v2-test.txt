@@ -1,0 +1,34 @@
+seed 1: action 80.0%  category 83.3%  false-heal 5.6% (1)  missed-heal 41.7%  llm-calls 70%  fallbacks 0  p50 5044.4 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - missing key in json payload
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t20: label restart/unhealthy  pred investigate/unhealthy (llm) - Worker timeout indicating a potential application issue
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user 'app'
+   t25: label investigate/unknown  pred investigate/network_path (llm) - healthcheck failure due to network issue
+   t29: label investigate/network_path  pred investigate/app_crash (llm) - service unreachable due to authentication issue
+seed 2: action 80.0%  category 83.3%  false-heal 5.6% (1)  missed-heal 41.7%  llm-calls 70%  fallbacks 0  p50 5455.8 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - key error in worker script
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t25: label investigate/unknown  pred investigate/network_path (llm) - HTTP connection refused, no recent logs
+   t29: label investigate/network_path  pred investigate/app_crash (llm) - service unreachable due to authentication issue
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+seed 3: action 80.0%  category 83.3%  false-heal 5.6% (1)  missed-heal 41.7%  llm-calls 70%  fallbacks 0  p50 5303.4 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - key error in worker script
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t25: label investigate/unknown  pred investigate/network_path (llm) - HTTP connection refused, no recent logs
+   t29: label investigate/network_path  pred investigate/unhealthy (llm) - service unreachable due to authentication issue
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+wrote evals\results\hybrid-v2-test.json

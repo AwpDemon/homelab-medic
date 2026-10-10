@@ -21,6 +21,40 @@ check (http/tcp/docker) ──DOWN──► evidence ──► heuristics ──
                                                                                     + Discord alert
 ```
 
+## Evaluation: does the diagnosis make the right call?
+
+Measured on a labeled set of **50 incidents** ([evals/](evals/)): 3 real incidents from my homelab,
+anonymized, and 47 synthetic ones modeled on real software logs, several of them adversarial. Labeling rules
+are in [evals/LABELING.md](evals/LABELING.md). The prompt was tuned on a 20-case **dev** split only. The
+numbers below are from the held-out 30-case **test** split, using `qwen2.5:7b-instruct` on Ollama,
+temperature 0.2, mean of 3 seeds (range in brackets).
+
+| Diagnosis mode | Action accuracy | Root-cause accuracy | False-heal rate | Missed-heal rate | LLM calls | p50 latency |
+|---|---|---|---|---|---|---|
+| Heuristics only | 73.3% | 73.3% | **44.4%** (8 of 18) | 0.0% | 0% | <1 ms |
+| Hybrid, prompt v1 (original) | 70.0% | 80.0% [76.7-83.3] | 5.6% | 66.7% | 70% | 5.3 s |
+| **Hybrid, prompt v2 (production)** | **80.0%** | **83.3%** | **5.6%** | 41.7% | 70% | 5.3 s |
+| LLM on every incident, v2 (ablation) | 81.1% [76.7-86.7] | 74.4% [73.3-76.7] | 0.0% | 47.2% [33.3-58.3] | 100% | 6.0 s |
+
+- **False heal** = recommends a restart when the label says a restart cannot fix it (it masks a disk-full,
+  a bad config or a crash loop). **Missed heal** = withholds a restart that would have fixed the outage.
+  Healing still has to pass the policy gate (opt-in, cooldown, daily budget), so a false heal is bounded,
+  but it is the more dangerous error.
+- **What the table says:** heuristics alone never miss a heal but restart into 44% of the problems a restart
+  cannot fix. Adding the LLM for the ambiguous 70% of cases cuts false heals to about 6%. The trade-off is
+  that the 7B model stays too cautious and withholds about 42% of the restarts that would have worked. Prompt v2
+  (rules about container state vs stale log lines) moved action accuracy from 70% to 80% on the held-out split.
+  The before/after and the remaining failure modes are in [PROMPTS.md](PROMPTS.md).
+- **Limits:** 47 of 50 cases are synthetic and written by me (as were the labels and the prompts); 30 test cases
+  give wide intervals. A second labeler and more real incidents are the next step.
+
+Reproduce (the LLM rows need an Ollama or OpenAI-compatible endpoint):
+
+```bash
+python evals/run_eval.py --mode heuristics --split test
+python evals/run_eval.py --mode hybrid --prompt v2 --split test --seeds 1 2 3     --url http://127.0.0.1:11434 --model qwen2.5:7b-instruct
+```
+
 ## A real incident, start to finish
 
 I stopped a container on my live stack. One scan later:
@@ -91,6 +125,9 @@ python -m medic.main watch           # continuous (touch KILL to stop cleanly)
 python -m medic.main incidents       # recent incident history
 ```
 
+The LLM can be any Ollama model (`api = "ollama"`) or any OpenAI-compatible endpoint (`api = "openai"`,
+with an API key read from the env var named in `api_key_env`).
+
 Each service is a few lines of TOML:
 
 ```toml
@@ -106,10 +143,13 @@ max_heals_per_day = 5
 
 ## Tests
 
-65 pytest tests: real local HTTP/TCP servers for the checks, mocked docker and
-Ollama for the rest. No Docker needed to run the suite.
+85 pytest tests: real local HTTP/TCP servers for the checks, mocked docker and
+LLM endpoints for the rest, plus checks on the eval set and metric definitions.
+No Docker or LLM needed to run the suite. CI also runs the deterministic
+(heuristics-only) eval over all 50 cases.
 
 ```bash
+pip install -r requirements-dev.txt
 python -m pytest tests/
 ```
 

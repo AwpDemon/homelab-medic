@@ -1,0 +1,40 @@
+seed 1: action 70.0%  category 80.0%  false-heal 5.6% (1)  missed-heal 66.7%  llm-calls 70%  fallbacks 0  p50 5134.4 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - upstream redis service not running
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Postgres database connection refused
+   t14: label restart/app_crash  pred investigate/app_crash (llm) - missing key 'user_id' in payload dictionary
+   t16: label restart/external_stop  pred investigate/crash_loop (llm) - container exited (code 137)
+   t18: label restart/unhealthy  pred investigate/app_crash (llm) - Timeout waiting for library lock
+   t20: label restart/unhealthy  pred investigate/unhealthy (llm) - worker timeout due to idle workers
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failure
+   t27: label restart/oom  pred investigate/crash_loop (llm) - container exited (code 137)
+   t29: label investigate/network_path  pred investigate/app_crash (llm) - incorrect authentication
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+seed 2: action 70.0%  category 76.7%  false-heal 5.6% (1)  missed-heal 66.7%  llm-calls 70%  fallbacks 0  p50 5727.2 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Redis instance at cache is not running or refusing connections
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Postgres database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - missing 'user_id' key in payload dictionary
+   t16: label restart/external_stop  pred investigate/app_crash (llm) - received SIGTERM and failed to gracefully shut down
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t20: label restart/unhealthy  pred investigate/app_crash (llm) - worker timeout indicating an internal issue
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t27: label restart/oom  pred investigate/crash_loop (llm) - container exited (code 137)
+   t29: label investigate/network_path  pred investigate/config_error (llm) - incorrect authentication
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+seed 3: action 70.0%  category 83.3%  false-heal 5.6% (1)  missed-heal 66.7%  llm-calls 70%  fallbacks 0  p50 4889.0 ms
+   t03: label investigate/oom  pred restart/oom (heuristic) - container OOM-killed by kernel
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Redis cache is unreachable
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - PostgreSQL database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - missing key in JSON payload
+   t16: label restart/external_stop  pred none/external_stop (llm) - container received SIGTERM and is shutting down gracefully
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t20: label restart/unhealthy  pred investigate/unhealthy (llm) - Worker timeout indicating an unhealthy state
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t27: label restart/oom  pred investigate/crash_loop (llm) - container exited (code 137)
+   t29: label investigate/network_path  pred investigate/config_error (llm) - Authentication issue likely due to misconfigured credentials
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+wrote evals\results\hybrid-v1-test.json

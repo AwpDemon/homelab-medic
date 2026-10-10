@@ -1,0 +1,38 @@
+seed 1: action 86.7%  category 76.7%  false-heal 0.0% (0)  missed-heal 33.3%  llm-calls 100%  fallbacks 0  p50 6383.1 ms
+   t01: label restart/external_stop  pred investigate/config_error (llm) - missing configuration and engine loading failures
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused, likely due to database service unavailability
+   t14: label restart/app_crash  pred investigate/config_error (llm) - missing key in JSON payload
+   t15: label investigate/crash_loop  pred investigate/app_crash (llm) - TypeError in catalog rendering
+   t20: label restart/unhealthy  pred investigate/unhealthy (llm) - Worker timeout due to potential request processing issues
+   t21: label investigate/crash_loop  pred investigate/app_crash (llm) - Missing command error in logs
+   t25: label investigate/unknown  pred investigate/network_path (llm) - healthcheck failure due to network issue
+   t29: label investigate/network_path  pred investigate/unhealthy (llm) - service unreachable due to authentication issue
+seed 2: action 80.0%  category 73.3%  false-heal 0.0% (0)  missed-heal 50.0%  llm-calls 100%  fallbacks 0  p50 6160.5 ms
+   t01: label restart/external_stop  pred investigate/config_error (llm) - missing configuration files and network timeout
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - key error in worker script
+   t15: label investigate/crash_loop  pred investigate/app_crash (llm) - Repeated TypeError in catalog rendering
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t21: label investigate/crash_loop  pred investigate/config_error (llm) - Missing required command in the application startup
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t25: label investigate/unknown  pred investigate/network_path (llm) - HTTP connection refused, no recent logs
+   t29: label investigate/network_path  pred investigate/unhealthy (llm) - service unreachable due to authentication issue
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+seed 3: action 76.7%  category 73.3%  false-heal 0.0% (0)  missed-heal 58.3%  llm-calls 100%  fallbacks 0  p50 5316.5 ms
+   t01: label restart/external_stop  pred investigate/config_error (llm) - missing config and failed engine registration
+   t06: label restart/dependency_unreachable  pred investigate/dependency_unreachable (llm) - Connection refused by the Redis cache
+   t07: label restart/oom  pred investigate/oom (llm) - JavaScript heap out of memory
+   t09: label investigate/network_path  pred investigate/dependency_unreachable (llm) - Database connection refused
+   t14: label restart/app_crash  pred investigate/config_error (llm) - key error in worker script
+   t15: label investigate/crash_loop  pred investigate/app_crash (llm) - Repeated TypeError in catalog rendering
+   t18: label restart/unhealthy  pred investigate/unhealthy (llm) - Timeout waiting for library lock
+   t20: label restart/unhealthy  pred investigate/unhealthy (llm) - worker timeout due to potential request processing issues
+   t21: label investigate/crash_loop  pred investigate/app_crash (llm) - Missing command in the application usage.
+   t22: label investigate/config_error  pred investigate/permission (llm) - password authentication failed for user
+   t25: label investigate/unknown  pred investigate/network_path (llm) - HTTP connection refused, no recent logs
+   t29: label investigate/network_path  pred investigate/unhealthy (llm) - service unreachable due to authentication issue
+   t30: label restart/app_crash  pred investigate/app_crash (llm) - segmentation fault
+wrote evals\results\llm-v2-test.json

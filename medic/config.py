@@ -21,12 +21,19 @@ class Service:
     expect_status: int = 0        # http only; 0 = any non-5xx
 
 
+VALID_LLM_APIS = ("ollama", "openai")
+
+
 @dataclass(frozen=True)
 class LLMConfig:
     enabled: bool = False
     url: str = "http://localhost:11434"
     model: str = ""
     timeout_seconds: int = 60
+    api: str = "ollama"           # ollama (native /api/chat) | openai (/v1/chat/completions)
+    api_key_env: str = ""         # env var holding a bearer token (openai mode), "" = none
+    temperature: float = 0.2
+    prompt: str = "v2"            # system prompt version, see medic/llm.py and PROMPTS.md
 
 
 @dataclass(frozen=True)
@@ -89,6 +96,13 @@ def load_config(path: str | Path) -> Config:
     if not services:
         raise ConfigError("no [[service]] entries defined")
 
+    api = str(llm_raw.get("api", "ollama"))
+    if api not in VALID_LLM_APIS:
+        raise ConfigError(f"llm.api must be one of {VALID_LLM_APIS}, got {api!r}")
+    prompt = str(llm_raw.get("prompt", "v2"))
+    if prompt not in ("v1", "v2"):
+        raise ConfigError(f"llm.prompt must be 'v1' or 'v2', got {prompt!r}")
+
     return Config(
         services=tuple(services),
         llm=LLMConfig(
@@ -96,6 +110,10 @@ def load_config(path: str | Path) -> Config:
             url=str(llm_raw.get("url", "http://localhost:11434")).rstrip("/"),
             model=str(llm_raw.get("model", "")),
             timeout_seconds=int(llm_raw.get("timeout_seconds", 60)),
+            api=api,
+            api_key_env=str(llm_raw.get("api_key_env", "")),
+            temperature=float(llm_raw.get("temperature", 0.2)),
+            prompt=prompt,
         ),
         interval_seconds=int(defaults.get("interval_seconds", 120)),
         timeout_seconds=int(defaults.get("timeout_seconds", 5)),
