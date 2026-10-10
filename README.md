@@ -35,6 +35,7 @@ temperature 0.2, mean of 3 seeds (range in brackets).
 | Hybrid, prompt v1 (original) | 70.0% | 80.0% [76.7-83.3] | 5.6% | 66.7% | 70% | 5.3 s |
 | **Hybrid, prompt v2 (production)** | **80.0%** | **83.3%** | **5.6%** | 41.7% | 70% | 5.3 s |
 | LLM on every incident, v2 (ablation) | 81.1% [76.7-86.7] | 74.4% [73.3-76.7] | 0.0% | 47.2% [33.3-58.3] | 100% | 6.0 s |
+| Hybrid v2 + heuristic fix *(post-hoc, see below)* | 84.4% [83.3-86.7] | 84.4% [83.3-86.7] | 1.9% [0.0-5.6] | 36.1% [25.0-41.7] | 70% | 4.8 s |
 
 - **False heal** = recommends a restart when the label says a restart cannot fix it (it masks a disk-full,
   a bad config or a crash loop). **Missed heal** = withholds a restart that would have fixed the outage.
@@ -42,9 +43,12 @@ temperature 0.2, mean of 3 seeds (range in brackets).
   but it is the more dangerous error.
 - **What the table says:** heuristics alone never miss a heal but restart into 44% of the problems a restart
   cannot fix. Adding the LLM for the ambiguous 70% of cases cuts false heals to about 6%. The trade-off is
-  that the 7B model stays too cautious and withholds about 42% of the restarts that would have worked. Prompt v2
+  that the 7B model stays too cautious and withholds 36-42% of the restarts that would have worked. Prompt v2
   (rules about container state vs stale log lines) moved action accuracy from 70% to 80% on the held-out split.
   The before/after and the remaining failure modes are in [PROMPTS.md](PROMPTS.md).
+- **Post-hoc row:** the remaining false heal (t03, a container OOM-killed 4 times) never reached the LLM,
+  because the heuristic checked "OOM-killed" before "restarting repeatedly". That contradicted the labeling
+  rules, so I fixed the rule order. It was found on the test split, so that row is not a clean held-out result.
 - **Limits:** 47 of 50 cases are synthetic and written by me (as were the labels and the prompts); 30 test cases
   give wide intervals. A second labeler and more real incidents are the next step.
 
@@ -143,7 +147,7 @@ max_heals_per_day = 5
 
 ## Tests
 
-85 pytest tests: real local HTTP/TCP servers for the checks, mocked docker and
+86 pytest tests: real local HTTP/TCP servers for the checks, mocked docker and
 LLM endpoints for the rest, plus checks on the eval set and metric definitions.
 No Docker or LLM needed to run the suite. CI also runs the deterministic
 (heuristics-only) eval over all 50 cases.

@@ -63,6 +63,19 @@ def diagnose(ev: Evidence) -> Diagnosis:
             category="unknown",
         )
 
+    if ev.oom_killed and ev.restart_count >= 3:
+        # Checked before the single-OOM rule: restarting a container that keeps
+        # getting OOM-killed only repeats the kill. (Found by the eval set, t03.)
+        return Diagnosis(
+            cause="repeated OOM kills",
+            confidence=0.9,
+            recommended_action="investigate",
+            reasoning=f"OOMKilled=true with RestartCount={ev.restart_count}; raise the memory "
+                      "limit or find the leak instead of restarting again",
+            source="heuristic",
+            category="oom",
+        )
+
     if ev.oom_killed:
         return Diagnosis(
             cause="container OOM-killed by kernel",

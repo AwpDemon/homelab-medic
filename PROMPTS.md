@@ -44,3 +44,11 @@ picks plausible but wrong categories: "permission" for a failed password (t22), 
 for a container that recovered on its own (t09). Rules in the prompt help, but they do not fully override
 the model's prior that errors in logs mean "a human should look". A larger model, or few-shot examples,
 are the next things to try. Both should be judged on the test split only after being frozen on dev.
+
+## Post-hoc heuristic fix
+
+The only false heal in hybrid mode (t03, an ML container OOM-killed 4 times in a row) never reached the
+LLM. The heuristic checked `OOMKilled` before `RestartCount >= 3` and answered "restart" with 0.95
+confidence. That contradicts the rubric, which was written before any run ("repeated OOM kills →
+investigate"), so I fixed the rule order. Because the error was found on the test split, the post-fix
+numbers are reported separately and labeled post-hoc in the README.

@@ -15,6 +15,12 @@ class TestDiagnose:
         assert d.recommended_action == "restart"
         assert d.confidence >= 0.9
 
+    def test_repeated_oom_is_not_restarted(self):
+        d = diagnose(_ev(oom_killed=True, restart_count=4))
+        assert d.recommended_action == "investigate"
+        assert d.category == "oom"
+        assert d.confidence >= 0.85  # deterministic: no LLM consultation
+
     def test_crash_loop_blocks_restart(self):
         d = diagnose(_ev(restart_count=5))
         assert d.cause == "crash loop"

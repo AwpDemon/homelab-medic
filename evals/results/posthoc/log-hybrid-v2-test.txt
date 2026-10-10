@@ -1,0 +1,4 @@
+seed 1: action 86.7%  category 86.7%  false-heal 5.6% (1)  missed-heal 25.0%  llm-calls 70%  fallbacks 0  p50 5083.6 ms
+seed 2: action 83.3%  category 83.3%  false-heal 0.0% (0)  missed-heal 41.7%  llm-calls 70%  fallbacks 0  p50 4290.1 ms
+seed 3: action 83.3%  category 83.3%  false-heal 0.0% (0)  missed-heal 41.7%  llm-calls 70%  fallbacks 0  p50 5036.4 ms
+wrote evals\results\posthoc\hybrid-v2-test.json

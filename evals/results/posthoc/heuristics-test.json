@@ -1,0 +1,478 @@
+{
+  "mode": "heuristics",
+  "prompt": null,
+  "split": "test",
+  "model": null,
+  "api": null,
+  "threshold": null,
+  "temperature": null,
+  "seeds": [
+    0
+  ],
+  "per_seed": [
+    {
+      "n": 30,
+      "action_accuracy": 0.7666666666666667,
+      "category_accuracy": 0.7333333333333333,
+      "false_heal_rate": 0.3888888888888889,
+      "false_heals": 7,
+      "missed_heal_rate": 0.0,
+      "llm_invocation_rate": 0.0,
+      "llm_fallbacks": 0,
+      "latency_p50_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "llm_call_p50_ms": 0.0
+    }
+  ],
+  "summary": {
+    "n": {
+      "mean": 30.0,
+      "min": 30,
+      "max": 30
+    },
+    "action_accuracy": {
+      "mean": 0.7666666666666667,
+      "min": 0.7666666666666667,
+      "max": 0.7666666666666667
+    },
+    "category_accuracy": {
+      "mean": 0.7333333333333333,
+      "min": 0.7333333333333333,
+      "max": 0.7333333333333333
+    },
+    "false_heal_rate": {
+      "mean": 0.3888888888888889,
+      "min": 0.3888888888888889,
+      "max": 0.3888888888888889
+    },
+    "false_heals": {
+      "mean": 7.0,
+      "min": 7,
+      "max": 7
+    },
+    "missed_heal_rate": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_invocation_rate": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_fallbacks": {
+      "mean": 0.0,
+      "min": 0,
+      "max": 0
+    },
+    "latency_p50_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "latency_p95_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "llm_call_p50_ms": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    }
+  },
+  "predictions": {
+    "0": [
+      {
+        "id": "t01",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "external_stop",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container stopped cleanly (exit 0)",
+        "latency_ms": 0.01
+      },
+      {
+        "id": "t02",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "oom",
+        "confidence": 0.95,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container OOM-killed by kernel",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t03",
+        "label_action": "investigate",
+        "label_category": "oom",
+        "pred_action": "investigate",
+        "pred_category": "oom",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "repeated OOM kills",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t04",
+        "label_action": "investigate",
+        "label_category": "port_conflict",
+        "pred_action": "investigate",
+        "pred_category": "port_conflict",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "port conflict on startup",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t05",
+        "label_action": "investigate",
+        "label_category": "permission",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t06",
+        "label_action": "restart",
+        "label_category": "dependency_unreachable",
+        "pred_action": "restart",
+        "pred_category": "dependency_unreachable",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "upstream dependency unreachable",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t07",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t08",
+        "label_action": "investigate",
+        "label_category": "network_path",
+        "pred_action": "investigate",
+        "pred_category": "network_path",
+        "confidence": 0.3,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "service unreachable, container looks healthy",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t09",
+        "label_action": "investigate",
+        "label_category": "network_path",
+        "pred_action": "investigate",
+        "pred_category": "network_path",
+        "confidence": 0.3,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "service unreachable, container looks healthy",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t10",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "external_stop",
+        "confidence": 0.9,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container stopped cleanly (exit 0)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t11",
+        "label_action": "investigate",
+        "label_category": "disk_full",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t12",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 1)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t13",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t14",
+        "label_action": "restart",
+        "label_category": "app_crash",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 1)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t15",
+        "label_action": "investigate",
+        "label_category": "crash_loop",
+        "pred_action": "investigate",
+        "pred_category": "crash_loop",
+        "confidence": 0.85,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "crash loop",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t16",
+        "label_action": "restart",
+        "label_category": "external_stop",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 137)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t17",
+        "label_action": "investigate",
+        "label_category": "dns_failure",
+        "pred_action": "restart",
+        "pred_category": "dns_failure",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "DNS resolution failure",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t18",
+        "label_action": "restart",
+        "label_category": "unhealthy",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t19",
+        "label_action": "investigate",
+        "label_category": "permission",
+        "pred_action": "investigate",
+        "pred_category": "permission",
+        "confidence": 0.7,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "filesystem permission error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t20",
+        "label_action": "restart",
+        "label_category": "unhealthy",
+        "pred_action": "restart",
+        "pred_category": "unhealthy",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container running but healthcheck failing",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t21",
+        "label_action": "investigate",
+        "label_category": "crash_loop",
+        "pred_action": "investigate",
+        "pred_category": "crash_loop",
+        "confidence": 0.85,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "crash loop",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t22",
+        "label_action": "investigate",
+        "label_category": "config_error",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "application fatal error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t23",
+        "label_action": "investigate",
+        "label_category": "disk_full",
+        "pred_action": "investigate",
+        "pred_category": "disk_full",
+        "confidence": 0.95,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "disk full",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t24",
+        "label_action": "investigate",
+        "label_category": "dependency_unreachable",
+        "pred_action": "restart",
+        "pred_category": "dependency_unreachable",
+        "confidence": 0.5,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "upstream dependency unreachable",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t25",
+        "label_action": "investigate",
+        "label_category": "unknown",
+        "pred_action": "investigate",
+        "pred_category": "unknown",
+        "confidence": 0.2,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "evidence collection failed",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t26",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "oom",
+        "confidence": 0.95,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container OOM-killed by kernel",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t27",
+        "label_action": "restart",
+        "label_category": "oom",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 137)",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t28",
+        "label_action": "investigate",
+        "label_category": "permission",
+        "pred_action": "investigate",
+        "pred_category": "permission",
+        "confidence": 0.7,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "filesystem permission error",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t29",
+        "label_action": "investigate",
+        "label_category": "network_path",
+        "pred_action": "investigate",
+        "pred_category": "network_path",
+        "confidence": 0.3,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "service unreachable, container looks healthy",
+        "latency_ms": 0.0
+      },
+      {
+        "id": "t30",
+        "label_action": "restart",
+        "label_category": "app_crash",
+        "pred_action": "restart",
+        "pred_category": "app_crash",
+        "confidence": 0.6,
+        "source": "heuristic",
+        "llm_called": false,
+        "llm_fallback": false,
+        "cause": "container exited (code 139)",
+        "latency_ms": 0.0
+      }
+    ]
+  }
+}
