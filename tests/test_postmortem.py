@@ -16,7 +16,7 @@ class TestPostmortem:
     def test_healed(self, tmp_path):
         p = write(tmp_path, 7, RESULT, EV, DIAG, "within budget",
                   HealResult(True, True, "restarted; verify: HTTP 200"))
-        text = p.read_text()
+        text = p.read_text(encoding="utf-8")
         assert p.name == "incident-0007-web.md"
         assert "wedged worker" in text
         assert "✅ Auto-healed" in text
@@ -26,18 +26,18 @@ class TestPostmortem:
     def test_heal_failed(self, tmp_path):
         p = write(tmp_path, 8, RESULT, EV, DIAG, "within budget",
                   HealResult(True, False, "still down"))
-        assert "❌ Heal failed" in p.read_text()
+        assert "❌ Heal failed" in p.read_text(encoding="utf-8")
 
     def test_no_heal(self, tmp_path):
         p = write(tmp_path, 9, RESULT, EV, DIAG, "cooldown active", None)
-        text = p.read_text()
+        text = p.read_text(encoding="utf-8")
         assert "No heal attempted" in text
         assert "cooldown active" in text
 
     def test_empty_logs(self, tmp_path):
         ev = Evidence(container="web", logs_tail="")
         p = write(tmp_path, 10, RESULT, ev, DIAG, "x", None)
-        assert "(no logs captured)" in p.read_text()
+        assert "(no logs captured)" in p.read_text(encoding="utf-8")
 
     def test_creates_directory(self, tmp_path):
         p = write(tmp_path / "nested" / "dir", 11, RESULT, EV, DIAG, "x", None)

@@ -129,7 +129,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         for inc in store.recent_incidents():
             print(f"#{inc['id']:>3} {inc['opened_at'][:19]} {inc['service']:<20} "
-                  f"{inc['cause']} → {'resolved' if inc['resolved_at'] else 'OPEN'}")
+                  f"{inc['cause']} -> {'resolved' if inc['resolved_at'] else 'OPEN'}")
         return 0
     finally:
         store.close()
